@@ -1,0 +1,21 @@
+apiVersion: v2
+name: splan
+description: SPLAN
+type: application
+version: 0.3.0
+dependencies:
+- name: common
+  version: 1.0.0
+  repository: https://sun-asterisk-research.github.io/helm-charts
+- name: beanstalkd
+  repository: https://sun-asterisk-research.github.io/helm-charts
+  version: 0.1.0
+  condition: beanstalkd.enabled
+- name: mariadb
+  version: 11.1.7
+  repository: https://charts.bitnami.com/bitnami
+  condition: mariadb.enabled
+- name: redis
+  version: 17.0.10
+  repository: https://charts.bitnami.com/bitnami
+  condition: redis.enabled

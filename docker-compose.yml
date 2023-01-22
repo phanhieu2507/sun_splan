@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:2.8
+    restart: unless-stopped
+    command:
+    - --api.dashboard=true
+    - --entrypoints.http.address=:80
+    - --providers.docker
+    - --providers.docker.network=${COMPOSE_PROJECT_NAME}_frontend
+    - --providers.docker.watch=true
+    - --providers.docker.exposedbydefault=false
+    ports:
+    - ${PORT:-80}:80
+    labels:
+    - traefik.enable=true
+    - traefik.http.routers.traefik.rule=Host(`${TRAEFIK_DOMAIN}`)
+    - traefik.http.routers.traefik.service=api@internal
+    - traefik.http.middlewares.traefik-dashboard.redirectRegex.regex=/
+    - traefik.http.middlewares.traefik-dashboard.redirectRegex.replacement=/dashboard/
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  php:
+    image: ghcr.io/sun-asterisk-research/php-dev:8.1
+    restart: unless-stopped
+    working_dir: /srv/app
+    environment:
+      DOCUMENT_ROOT: /srv/app/public
+    volumes:
+    - ./api:/srv/app
+    labels:
+    - traefik.enable=true
+    - traefik.http.routers.${COMPOSE_PROJECT_NAME}-api.rule=Host(`${DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/images`))
+    - traefik.http.services.${COMPOSE_PROJECT_NAME}-api.loadbalancer.server.port=80
+    - traefik.http.routers.telescope.rule=Host(`${DOMAIN}`) && (PathPrefix(`/telescope`) || PathPrefix(`/vendor`))
+  node:
+    image: node:16
+    restart: unless-stopped
+    tty: true
+    working_dir: /srv/web
+    user: ${USER:-1000:1000}
+    volumes:
+    - ./web:/srv/web
+    labels:
+    - traefik.enable=true
+    - traefik.http.routers.${COMPOSE_PROJECT_NAME}-web.rule=Host(`${DOMAIN}`)
+    - traefik.http.services.${COMPOSE_PROJECT_NAME}-web.loadbalancer.server.port=3000
+
+  redis:
+    image: redis:7.0-alpine
+    restart: unless-stopped
+    volumes:
+    - ${PATH_DATA:-./.data}/redis:/data
+
+  mariadb:
+    image: mariadb:10.7.4
+    restart: unless-stopped
+    volumes:
+      - ${PATH_DATA:-./.data}/mariadb:/var/lib/mysql
+    environment:
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USERNAME}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: ${MARIADB_ALLOW_EMPTY_ROOT_PASSWORD:-true}
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    restart: unless-stopped
+    labels:
+    - traefik.enable=true
+    - traefik.http.routers.${COMPOSE_PROJECT_NAME}-mailcatcher.rule=Host(`${MAILCATCHER_DOMAIN}`)
+    - traefik.http.services.${COMPOSE_PROJECT_NAME}-mailcatcher.loadbalancer.server.port=1080

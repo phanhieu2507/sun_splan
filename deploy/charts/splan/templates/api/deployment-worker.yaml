@@ -1,0 +1,79 @@
+{{- if .Values.api.worker.enabled }}
+{{- range .Values.api.worker.workers }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "common.names.fullname" $ }}-worker-{{ .queue | replace "," "-" }}
+  labels:
+    {{- include "common.labels.standard" $ | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "common.labels.matchLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: worker
+  {{- if $.Values.api.worker.updateStrategy }}
+  strategy: {{ toYaml $.Values.api.worker.updateStrategy | nindent 4 }}
+  {{- end }}
+  replicas: {{ .replicaCount | default 1 }}
+  template:
+    metadata:
+      labels:
+        {{- include "common.labels.standard" $ | nindent 8 }}
+        app.kubernetes.io/component: worker
+        {{- if $.Values.api.worker.podLabels }}
+        {{- toYaml $.Values.api.worker.podLabels | nindent 8 }}
+        {{- end }}
+      annotations:
+        {{- include "splan.checksums.appConfig" $ | nindent 8 }}
+        {{- if $.Values.api.worker.podAnnotations }}
+        {{- toYaml $.Values.api.worker.podAnnotations | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- include "splan.images.pullSecrets" $ | indent 6 }}
+      containers:
+      - name: worker
+        image: {{ template "splan.images.api" $ }}
+        imagePullPolicy: {{ $.Values.api.image.pullPolicy | quote }}
+        env:
+        - name: MODE
+          value: worker
+        - name: WORKER_COMMAND
+          value: {{ .command | default "work" | quote }}
+        - name: WORKER_QUEUE
+          value: {{ .queue | quote }}
+        - name: WORKER_SLEEP
+          value: {{ .sleep | default 1 | quote }}
+        - name: WORKER_RETRIES
+          value: {{ .tries | default 1 | quote }}
+        - name: WORKER_TIMEOUT
+          value: {{ .timeout | default 60 | quote }}
+        envFrom:
+        {{- include "splan.laravel.env" $ | nindent 8 }}
+        resources:
+          {{- toYaml $.Values.api.worker.resources | nindent 10 }}
+        {{- if $.Values.api.worker.containerSecurityContext.enabled }}
+        securityContext: {{- omit $.Values.api.worker.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+        {{- end }}
+      {{- if $.Values.api.worker.podSecurityContext.enabled }}
+      securityContext: {{- omit $.Values.api.worker.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.api.worker.affinity }}
+      affinity: {{- include "common.tplvalues.render" (dict "value" $.Values.api.worker.affinity "context" $) | nindent 8 }}
+      {{- else }}
+      affinity:
+        podAffinity: {{- include "common.affinities.pods" (dict "type" $.Values.api.worker.podAffinityPreset "component" "worker" "context" $) | nindent 10 }}
+        podAntiAffinity: {{- include "common.affinities.pods" (dict "type" $.Values.api.worker.podAntiAffinityPreset "component" "worker" "context" $) | nindent 10 }}
+        nodeAffinity: {{- include "common.affinities.nodes" $.Values.api.worker.nodeAffinityPreset | nindent 10 }}
+      {{- end }}
+      {{- if $.Values.api.worker.nodeSelector }}
+      nodeSelector: {{- include "common.tplvalues.render" (dict "value" $.Values.api.worker.nodeSelector "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.api.worker.tolerations }}
+      tolerations: {{- include "common.tplvalues.render" (dict "value" $.Values.api.worker.tolerations "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if $.Values.api.worker.topologySpreadConstraints }}
+      topologySpreadConstraints: {{- include "common.tplvalues.render" (dict "value" $.Values.api.worker.topologySpreadConstraints "context" $) | nindent 8 }}
+      {{- end }}
+{{- end }}
+{{- end }}

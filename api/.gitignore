@@ -1,0 +1,23 @@
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/.idea
+/.vscode
+
+# PHPUnit artifacts
+/.phpunit.result.cache
+/coverage
+/coverage.xml
+/testdox.txt
+
+#Exceptionally, you may want to add a line that starts with a bang (!) to force-add a file that would otherwise be ignored. For example, if you want to add a file called .env.example to your repository, you would add the following line to your .gitignore file:
+

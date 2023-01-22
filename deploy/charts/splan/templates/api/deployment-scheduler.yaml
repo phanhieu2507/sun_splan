@@ -1,0 +1,68 @@
+{{- if .Values.api.scheduler.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "common.names.fullname" . }}-scheduler
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "common.labels.matchLabels" . | nindent 6 }}
+      app.kubernetes.io/component: scheduler
+  strategy:
+    {{- toYaml .Values.api.scheduler.updateStrategy | nindent 4 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "common.labels.standard" . | nindent 8 }}
+        app.kubernetes.io/component: scheduler
+        {{- if .Values.api.scheduler.podLabels }}
+        {{- toYaml .Values.api.scheduler.podLabels | nindent 8 }}
+        {{- end }}
+      annotations:
+        {{- include "splan.checksums.appConfig" . | nindent 8 }}
+        {{- if .Values.api.scheduler.podAnnotations }}
+        {{- toYaml .Values.api.scheduler.podAnnotations | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- include "splan.images.pullSecrets" . | indent 6 }}
+      containers:
+      - name: scheduler
+        image: {{ template "splan.images.api" . }}
+        imagePullPolicy: {{ .Values.api.image.pullPolicy | quote }}
+        env:
+        - name: MODE
+          value: cron
+        envFrom:
+        {{- include "splan.laravel.env" . | nindent 8 }}
+        ports:
+        - name: http
+          containerPort: 80
+        resources:
+        {{- toYaml .Values.api.scheduler.resources | nindent 10 }}
+        {{- if .Values.api.scheduler.containerSecurityContext.enabled }}
+        securityContext: {{- omit .Values.api.scheduler.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+        {{- end }}
+      {{- if .Values.api.scheduler.podSecurityContext.enabled }}
+      securityContext: {{- omit .Values.api.scheduler.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if .Values.api.scheduler.affinity }}
+      affinity: {{- include "common.tplvalues.render" (dict "value" .Values.api.scheduler.affinity "context" $) | nindent 8 }}
+      {{- else }}
+      affinity:
+        podAffinity: {{- include "common.affinities.pods" (dict "type" .Values.api.scheduler.podAffinityPreset "component" "scheduler" "context" $) | nindent 10 }}
+        podAntiAffinity: {{- include "common.affinities.pods" (dict "type" .Values.api.scheduler.podAntiAffinityPreset "component" "scheduler" "context" $) | nindent 10 }}
+        nodeAffinity: {{- include "common.affinities.nodes" .Values.api.scheduler.nodeAffinityPreset | nindent 10 }}
+      {{- end }}
+      {{- if .Values.api.scheduler.nodeSelector }}
+      nodeSelector: {{- include "common.tplvalues.render" (dict "value" .Values.api.scheduler.nodeSelector "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.api.scheduler.tolerations }}
+      tolerations: {{- include "common.tplvalues.render" (dict "value" .Values.api.scheduler.tolerations "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.api.scheduler.topologySpreadConstraints }}
+      topologySpreadConstraints: {{- include "common.tplvalues.render" (dict "value" .Values.api.scheduler.topologySpreadConstraints "context" .) | nindent 8 }}
+      {{- end }}
+{{- end }}

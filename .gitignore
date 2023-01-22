@@ -1,0 +1,11 @@
+# Env
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea
+.vscode
+vetur.config.js
+
+/.data

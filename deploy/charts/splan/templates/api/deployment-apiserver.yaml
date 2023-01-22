@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "common.names.fullname" . }}-api
+  labels:
+    {{- include "common.labels.standard" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "common.labels.matchLabels" . | nindent 6 }}
+      app.kubernetes.io/component: api
+  strategy:
+    {{- toYaml .Values.api.server.updateStrategy | nindent 4 }}
+  replicas: {{ .Values.api.server.replicaCount }}
+  template:
+    metadata:
+      labels:
+        {{- include "common.labels.standard" . | nindent 8 }}
+        app.kubernetes.io/component: api
+        {{- if .Values.api.server.podLabels }}
+        {{- toYaml .Values.api.server.podLabels | nindent 8 }}
+        {{- end }}
+      annotations:
+        {{- include "splan.checksums.appConfig" . | nindent 8 }}
+        {{- if .Values.api.server.podAnnotations }}
+        {{- toYaml .Values.api.server.podAnnotations | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- include "splan.images.pullSecrets" . | indent 6 }}
+      containers:
+      - name: api
+        image: {{ template "splan.images.api" . }}
+        imagePullPolicy: {{ .Values.api.image.pullPolicy | quote }}
+        env:
+        - name: MODE
+          value: server
+        envFrom:
+        {{- include "splan.laravel.env" . | nindent 8 }}
+        ports:
+        - name: http
+          containerPort: 80
+        {{- if .Values.api.server.livenessProbe.enabled }}
+        livenessProbe:
+          httpGet:
+            path: /api/web-init
+            port: http
+          initialDelaySeconds: {{ .Values.api.server.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.api.server.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.api.server.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.api.server.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.api.server.livenessProbe.failureThreshold }}
+        {{- end }}
+        {{- if .Values.api.server.readinessProbe.enabled }}
+        readinessProbe:
+          httpGet:
+            path: /api/web-init
+            port: http
+          initialDelaySeconds: {{ .Values.api.server.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.api.server.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.api.server.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.api.server.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.api.server.readinessProbe.failureThreshold }}
+        {{- end }}
+        resources:
+        {{- toYaml .Values.api.server.resources | nindent 10 }}
+        {{- if .Values.api.server.containerSecurityContext.enabled }}
+        securityContext: {{- omit .Values.api.server.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+        {{- end }}
+      {{- if .Values.api.server.podSecurityContext.enabled }}
+      securityContext: {{- omit .Values.api.server.podSecurityContext "enabled" | toYaml | nindent 8 }}
+      {{- end }}
+      {{- if .Values.api.server.affinity }}
+      affinity: {{- include "common.tplvalues.render" (dict "value" .Values.api.server.affinity "context" $) | nindent 8 }}
+      {{- else }}
+      affinity:
+        podAffinity: {{- include "common.affinities.pods" (dict "type" .Values.api.server.podAffinityPreset "component" "api" "context" $) | nindent 10 }}
+        podAntiAffinity: {{- include "common.affinities.pods" (dict "type" .Values.api.server.podAntiAffinityPreset "component" "api" "context" $) | nindent 10 }}
+        nodeAffinity: {{- include "common.affinities.nodes" .Values.api.server.nodeAffinityPreset | nindent 10 }}
+      {{- end }}
+      {{- if .Values.api.server.nodeSelector }}
+      nodeSelector: {{- include "common.tplvalues.render" (dict "value" .Values.api.server.nodeSelector "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.api.server.tolerations }}
+      tolerations: {{- include "common.tplvalues.render" (dict "value" .Values.api.server.tolerations "context" $) | nindent 8 }}
+      {{- end }}
+      {{- if .Values.api.server.topologySpreadConstraints }}
+      topologySpreadConstraints: {{- include "common.tplvalues.render" (dict "value" .Values.api.server.topologySpreadConstraints "context" .) | nindent 8 }}
+      {{- end }}

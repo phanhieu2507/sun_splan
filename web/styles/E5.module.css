@@ -1,0 +1,7 @@
+.upload_button_border {
+  border: 1px solid #d9d9d9;
+}
+.upload_button_border:hover {
+  border: 1px solid #3da9fc;
+  
+}

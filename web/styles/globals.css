@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  * {
+    @apply font-m-plus1;
+    color: inherit;
+  }
+  body {
+    @apply font-m-plus1 text-sm;
+    color: rgb(9 64 103);
+  }
+  h1 {
+    @apply text-4xl mb-0;
+    color: rgb(9 64 103) !important;
+    font-weight: inherit;
+  }
+  h2 {
+    @apply text-3xl mb-0;
+    color: rgb(9 64 103) !important;
+    font-weight: inherit;
+  }
+  h3 {
+    @apply text-2xl mb-0;
+    color: rgb(9 64 103) !important;
+    font-weight: inherit;
+  }
+  h4 {
+    @apply text-lg mb-0;
+    color: rgb(9 64 103) !important;
+    font-weight: inherit;
+  }
+  h5 {
+    @apply text-sm mb-0;
+    color: rgb(9 64 103) !important;
+    font-weight: inherit;
+  }
+
+  a {
+    color: rgb(9 64 103);
+  }
+
+  .custom-btn-fill {
+    border: 1px solid #3da9fc;
+  }
+  .custom-btn-fill:hover {
+    border: 1px solid #228BDD;
+  }
+
+  .custom-btn {
+    border: 1px solid #d9d9d9;
+  }
+  .custom-btn:hover {
+    border: 1px solid #3da9fc;;
+  }
+
+  .nav-link-active .sidebar-item-link {
+    @apply bg-primary bg-opacity-[0.15] font-bold text-primary
+  }
+  .nav-link-active .sidebar-item-icon .custom-icon {
+    @apply bg-primary;
+  }
+}
+
+.ant-message .ant-message-notice {
+  text-align: right !important;
+}
+
+.ant-message .ant-message-notice .ant-message-notice-content {
+  margin-right: 30px !important;
+}  
+
+
+
+/* E5-3 */
+.edit-test-form .ant-form-item-label > label {
+  margin-right: 10px;
+  font-size:  1.125rem;
+}
+
+.edit-test-form .ant-form-item-label > label:not(.ant-form-item-required)::after {
+  display: inline-block;
+  margin-right: 4px;
+  color: #ff4d4f;
+  opacity: 0;
+  font-size:  1.125rem;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: '*';
+}
+.edit-test-form .ant-form-item-label > label:not(.ant-form-item-required)::before {
+  content: ':';
+  color: black;
+  font-size:1.125rem;
+  position: absolute; 
+  right: -5px;
+}
+
+.edit-test-form .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::after {
+  display: inline-block;
+  margin: 0 4px;
+  color: #ff4d4f;
+  font-size:  1.125rem;
+  font-family: SimSun, sans-serif;
+  line-height: 1;
+  content: '*';
+}
+
+.edit-test-form .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  content: ':';
+  color: black;
+  font-size:1.125rem;
+  position: absolute; 
+  right: -8px;
+}
+.edit-test-form .ant-upload-list.ant-upload-list-text {
+  width: 320px;
+}
+
+.test-score .ant-table {
+  color: rgb(9 64 103) !important;
+  border-collapse: collapse;
+  border-radius: 0;
+}
+.test-score .ant-table-thead .ant-table-cell {
+  font-size: 18px !important;
+  color: rgb(9 64 103) !important;
+}
+.test-score .ant-table-tbody .ant-table-row .ant-table-cell:nth-child(1), .test-score .ant-table-tbody .ant-table-row .ant-table-cell:nth-child(2) {
+  font-size: 18px !important;
+}
+.test-score .ant-table-tbody .ant-table-row .ant-table-cell:nth-child(3) {
+  font-size: 30px !important;
+}
+.test-score .ant-table .ant-table-cell {
+  border-left-color: #094067 !important;
+  border-right-color: #094067 !important;
+  border-bottom-color: #094067 !important;
+  border-top-color: #094067 !important;
+  padding: 20px;
+}
+.test-score .ant-table .ant-table-cell {
+  padding-block: 25px;
+  background-color: #FFFFFE !important;
+}
+.ant-table {
+  border-top: 1px solid #094067 !important;
+  border-left: 1px solid #094067 !important;
+  font-weight: 500;
+}
+
+.ant-picker-input input {
+  color: #094067 ;
+}

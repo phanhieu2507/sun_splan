@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv
+
+echo "* * * * * php /srv/app/artisan schedule:run" | crontab -u www-data -
+exec crond -fl 2

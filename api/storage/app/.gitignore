@@ -1,0 +1,8 @@
+
+public/images/*
+!.gitignore
+!public/images/.gitignore
+!public/images/contest-no-image.gif
+!public/images/document-no-image.png
+!public/images/university-no-image.png
+!public/images/user-no-image.png

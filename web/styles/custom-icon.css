@@ -1,0 +1,338 @@
+.custom-icon {
+  background-color: #094067;
+}
+.custom-icon.custom-icon-color-primary {
+  background-color: #3da9fc;
+}
+.custom-icon.custom-icon-color-danger {
+  background-color: #ef4565;
+}
+.custom-icon.custom-icon-color-warning {
+  background-color: #ffc53d;
+}
+.custom-icon.custom-icon-color-success {
+  background-color: #73c42d;
+}
+.custom-icon.custom-icon-color-disabled {
+  background-color: #8d8d8d;
+}
+.custom-icon.custom-icon-color-white {
+  background-color: #fffffe;
+}
+.custom-icon.custom-icon-color-black {
+  background-color: #000000;
+}
+.custom-icon.custom-icon-color-default {
+  background-color: #094067;
+}
+.custom-icon-like {
+  -webkit-mask: url(../assets/icons/like.svg) no-repeat center;
+  mask: url(../assets/icons/like.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-comment {
+  -webkit-mask: url(../assets/icons/comment.svg) no-repeat center;
+  mask: url(../assets/icons/comment.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-page {
+  -webkit-mask: url(../assets/icons/page.svg) no-repeat center;
+  mask: url(../assets/icons/page.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-house {
+  -webkit-mask: url(../assets/icons/house.svg) no-repeat center;
+  mask: url(../assets/icons/house.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-plant {
+  -webkit-mask: url(../assets/icons/plant.svg) no-repeat center;
+  mask: url(../assets/icons/plant.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-schedule {
+  -webkit-mask: url(../assets/icons/schedule.svg) no-repeat center;
+  mask: url(../assets/icons/schedule.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-info {
+  -webkit-mask: url(../assets/icons/info.svg) no-repeat center;
+  mask: url(../assets/icons/info.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-studytotal {
+  -webkit-mask: url(../assets/icons/studytotal.svg) no-repeat center;
+  mask: url(../assets/icons/studytotal.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-pin {
+  -webkit-mask: url(../assets/icons/pin.svg) no-repeat center;
+  mask: url(../assets/icons/pin.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-plus-circle {
+  -webkit-mask: url(../assets/icons/plus-circle.svg) no-repeat center;
+  mask: url(../assets/icons/plus-circle.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-fine {
+  -webkit-mask: url(../assets/icons/fine.svg) no-repeat center;
+  mask: url(../assets/icons/fine.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-rain {
+  -webkit-mask: url(../assets/icons/rain.svg) no-repeat center;
+  mask: url(../assets/icons/rain.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-walking {
+  -webkit-mask: url(../assets/icons/walking.svg) no-repeat center;
+  mask: url(../assets/icons/walking.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-notification {
+  -webkit-mask: url(../assets/icons/notification.svg) no-repeat center;
+  mask: url(../assets/icons/notification.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-new-post {
+  -webkit-mask: url(../assets/icons/new-post.svg) no-repeat center;
+  mask: url(../assets/icons/new-post.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-envelope {
+  -webkit-mask: url(../assets/icons/envelope.svg) no-repeat center;
+  mask: url(../assets/icons/envelope.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-lock {
+  -webkit-mask: url(../assets/icons/lock.svg) no-repeat center;
+  mask: url(../assets/icons/lock.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-filter {
+  -webkit-mask: url(../assets/icons/filter.svg) no-repeat center;
+  mask: url(../assets/icons/filter.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-image {
+  -webkit-mask: url(../assets/icons/image.svg) no-repeat center;
+  mask: url(../assets/icons/image.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-heart {
+  -webkit-mask: url(../assets/icons/heart.svg) no-repeat center;
+  mask: url(../assets/icons/heart.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-delete {
+  -webkit-mask: url(../assets/icons/delete.svg) no-repeat center;
+  mask: url(../assets/icons/delete.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-flag-2-line {
+  -webkit-mask: url(../assets/icons/flag-2-line.svg) no-repeat center;
+  mask: url(../assets/icons/flag-2-line.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-time {
+  -webkit-mask: url(../assets/icons/time.svg) no-repeat center;
+  mask: url(../assets/icons/time.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-check-double-fill {
+  -webkit-mask: url(../assets/icons/check-double-fill.svg) no-repeat center;
+  mask: url(../assets/icons/check-double-fill.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-back {
+  -webkit-mask: url(../assets/icons/back.svg) no-repeat center;
+  mask: url(../assets/icons/back.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-circle-check {
+  -webkit-mask: url(../assets/icons/circle-check.svg) no-repeat center;
+  mask: url(../assets/icons/circle-check.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-clowd {
+  -webkit-mask: url(../assets/icons/clowd.svg) no-repeat center;
+  mask: url(../assets/icons/clowd.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-ellipsis {
+  -webkit-mask: url(../assets/icons/ellipsis.svg) no-repeat center;
+  mask: url(../assets/icons/ellipsis.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-send {
+  -webkit-mask: url(../assets/icons/send.svg) no-repeat center;
+  mask: url(../assets/icons/send.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-arrow-right {
+  -webkit-mask: url(../assets/icons/arrow-right.svg) no-repeat center;
+  mask: url(../assets/icons/arrow-right.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-building {
+  -webkit-mask: url(../assets/icons/building.svg) no-repeat center;
+  mask: url(../assets/icons/building.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-people-fill {
+  -webkit-mask: url(../assets/icons/people-fill.svg) no-repeat center;
+  mask: url(../assets/icons/people-fill.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-pencil-squared {
+  -webkit-mask: url(../assets/icons/pencil-squared.svg) no-repeat center;
+  mask: url(../assets/icons/pencil-squared.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-arrow-narrow-right {
+  -webkit-mask: url(../assets/icons/arrow-narrow-right.svg) no-repeat center;
+  mask: url(../assets/icons/arrow-narrow-right.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-th-large {
+  -webkit-mask: url(../assets/icons/th-large.svg) no-repeat center;
+  mask: url(../assets/icons/th-large.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-caret-down {
+  -webkit-mask: url(../assets/icons/caret-down.svg) no-repeat center;
+  mask: url(../assets/icons/caret-down.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-book {
+  -webkit-mask: url(../assets/icons/book.svg) no-repeat center;
+  mask: url(../assets/icons/book.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-open-preview {
+  -webkit-mask: url(../assets/icons/open-preview.svg) no-repeat center;
+  mask: url(../assets/icons/open-preview.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-calendar {
+  -webkit-mask: url(../assets/icons/calendar.svg) no-repeat center;
+  mask: url(../assets/icons/calendar.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-down {
+  -webkit-mask: url(../assets/icons/down.svg) no-repeat center;
+  mask: url(../assets/icons/down.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-smile-face {
+  -webkit-mask: url(../assets/icons/smile-face.svg) no-repeat center;
+  mask: url(../assets/icons/smile-face.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-circle-x {
+  -webkit-mask: url(../assets/icons/circle-x.svg) no-repeat center;
+  mask: url(../assets/icons/circle-x.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-door-open-fill {
+  -webkit-mask: url(../assets/icons/door-open-fill.svg) no-repeat center;
+  mask: url(../assets/icons/door-open-fill.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-file-text {
+  -webkit-mask: url(../assets/icons/file-text.svg) no-repeat center;
+  mask: url(../assets/icons/file-text.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-category {
+  -webkit-mask: url(../assets/icons/category.svg) no-repeat center;
+  mask: url(../assets/icons/category.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-party-popper {
+  -webkit-mask: url(../assets/icons/party-popper.svg) no-repeat center;
+  mask: url(../assets/icons/party-popper.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-emotion-sad-line {
+  -webkit-mask: url(../assets/icons/emotion-sad-line.svg) no-repeat center;
+  mask: url(../assets/icons/emotion-sad-line.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-cloud-rain {
+  -webkit-mask: url(../assets/icons/cloud-rain.svg) no-repeat center;
+  mask: url(../assets/icons/cloud-rain.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-school {
+  -webkit-mask: url(../assets/icons/school.svg) no-repeat center;
+  mask: url(../assets/icons/school.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.bg-roadmap {
+  background-image: url(../assets/roadmap.svg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+.custom-icon-roadmap-flag {
+  -webkit-mask: url(../assets/icons/roadmap-flag.svg) no-repeat center;
+  mask: url(../assets/icons/roadmap-flag.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}
+.custom-icon-outlet {
+  -webkit-mask: url(../assets/icons/outlet.svg) no-repeat center;
+  mask: url(../assets/icons/outlet.svg) no-repeat center;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+}

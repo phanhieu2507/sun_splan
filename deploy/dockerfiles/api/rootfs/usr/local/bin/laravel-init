@@ -1,0 +1,58 @@
+#!/bin/sh
+
+set -e
+
+is_true() {
+    if [ "$1" == "true" ] || [ "$1" == "yes" ]; then
+        true
+    else
+        false
+    fi
+}
+
+get_config() {
+    php artisan tinker --execute="echo config('$1')"
+}
+
+make_writable() {
+    chown :www-data "$1"
+
+    if [ -d "$1" ]; then
+        chmod 775 "$1"
+    else
+        chmod 664 "$1"
+    fi
+}
+
+mk_writable_dir() {
+    mkdir -p "$1"
+    make_writable "$1"
+}
+
+cd /srv/app
+
+if [ "${MODE:-full}" == "full" ] && [ -z $(get_config app.key) ]; then
+    export APP_KEY="$(php artisan key:generate --show)"
+    echo "$APP_KEY" > /var/run/s6/container_environment/APP_KEY
+fi
+
+if is_true "${LARAVEL_OPTIMIZE:-true}"; then
+    php artisan optimize
+fi
+
+if [ "$(get_config database.default)" == "sqlite" ]; then
+    db_path="$(get_config database.connections.sqlite.database)"
+
+    if [ ! -f "$db_path" ]; then
+        mk_writable_dir "$(dirname $db_path)"
+        touch "$db_path"
+        make_writable "$db_path"
+    fi
+fi
+
+mk_writable_dir storage/app/public
+php artisan storage:link
+
+if is_true "${LARAVEL_RUN_MIGRATION:-true}"; then
+    php artisan migrate --force
+fi

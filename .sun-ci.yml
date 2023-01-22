@@ -1,0 +1,134 @@
+.docker-build: &docker-build
+  workspace: none
+  image: docker:20.10.17
+  services:
+  - docker:20.10.17-dind
+  script:
+  - export UNIQUE_TAG="build-$CI_BUILD_NUMBER-$ENV"
+  - apk add --no-cache make
+  - echo "$DOCKER_REGISTRY_PASSWORD" | docker login $DOCKER_REGISTRY -u "$DOCKER_REGISTRY_USERNAME" --password-stdin
+  - make pull || true
+  - make build
+  - make push
+
+default:
+  workspace: shared
+
+checkout:
+  depth: 3
+
+stages:
+  - Install
+  - Test
+  - Build
+
+jobs:
+  - name: Yarn Install
+    stage: Install
+    image: node:16-alpine
+    before_script:
+      - yarn config set network-timeout 300000
+    script:
+      - yarn
+    cache:
+      - key:
+          files:
+            - web/yarn.lock
+        paths:
+          - web/node_modules
+
+  - name: Composer Install
+    stage: Install
+    image: sunasteriskrnd/php-workspace:8.1-alpine
+    script:
+      - composer install -d api
+    cache:
+      - key:
+          files:
+            - api/composer.lock
+        paths:
+          - api/vendor
+
+  - name: CommitLint
+    stage: Test
+    image: sunci/commitlint:latest
+    before_script:
+      - echo "module.exports = {extends:['@commitlint/config-conventional']}" > commitlint.config.js
+    script:
+      - export COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s")
+      - echo "$COMMIT_MESSAGE" | commitlint
+
+  - name: ESLint
+    stage: Test
+    image: node:16-alpine
+    script:
+      - yarn lint --max-warnings 0
+
+  - name: PHP CodeSniffer
+    stage: Test
+    image: sunasteriskrnd/php-workspace:8.1-alpine
+    script:
+      - composer sniff -d api
+
+  - name: PHPUnit
+    stage: Test
+    image: sunasteriskrnd/php-workspace:8.1-alpine
+    services:
+      - image: mariadb:10.7.4
+        name: mariadb
+        environment:
+          MYSQL_DATABASE: splan
+          MYSQL_USER: splan
+          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: root
+    environment:
+      - APP_ENV=testing
+    before_script:
+      - echo 'memory_limit=-1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+    script:
+      - docker-php-ext-disable xdebug
+      - cd api
+      - cp .env.example .env.testing
+      - php artisan key:generate
+      - php artisan migrate
+      - composer coverage
+    coverage:
+      type: clover
+      path: api/coverage.xml
+    test_result:
+      type: junit
+      path: api/coverage/junit.xml
+    artifacts:
+      paths:
+        - api/coverage
+      expires_in: 3 days
+
+  - name: Staging build
+    stage: Build
+    environment:
+      TAG: develop
+      ENV: stg
+    only:
+      branches:
+      - develop
+    except:
+      events:
+      - pull_request
+      messages:
+      - '[ci skip deploy]'
+    <<: *docker-build
+
+  - name: Production build
+    stage: Build
+    environment:
+      TAG: stable
+      ENV: prd
+    only:
+      branches:
+      - master
+    except:
+      events:
+      - pull_request
+      messages:
+      - '[ci skip deploy]'
+    <<: *docker-build

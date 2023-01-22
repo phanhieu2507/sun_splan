@@ -1,0 +1,284 @@
+nameOverride: ""
+fullnameOverride: ""
+
+global:
+  imagePullSecrets: []
+
+api:
+  image:
+    registry: harbor.sun-asterisk.vn
+    repository: geu/splan/api
+    tag: stable
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+
+  config:
+    app:
+      name: SPLAN
+      key: ""
+      env: production
+      debug: false
+      url: http://splan.local
+    telescope:
+      enabled: true
+    log:
+      level: info
+      channel: stderr
+    broadcast:
+      driver: redis
+      pusher:
+        appID: ""
+        key: ""
+        secret: ""
+        cluster: ""
+        host: ""
+        port: ""
+        useTLS: true
+    cache:
+      driver: redis
+    mail:
+      mailer: smtp
+      from:
+        address: noreply@splan.local
+        name: "SPLAN"
+      smtp:
+        host: ""
+        port: 587
+        username: ""
+        password: ""
+        encryption: tls
+    queue:
+      connection: beanstalkd
+    session:
+      driver: redis
+    filesystems:
+      default: local
+      cloud: s3
+      s3:
+        endpoint: ""
+        region: ""
+        accessKey: ""
+        secretKey: ""
+        bucket: ""
+        forcePathStyle: false
+    db:
+      host: localhost
+      port: 3306
+      database: splan
+      username: splan
+      password: ""
+    redis:
+      host: localhost
+      port: 6379
+      password: ""
+    beanstalkd:
+      host: localhost
+
+  extraEnvVars: {}
+
+  service:
+    type: ClusterIP
+    port: 80
+    nodePort: ""
+    externalTrafficPolicy: Cluster
+    clusterIP: ""
+    loadBalancerSourceRanges: []
+
+  server:
+    replicaCount: 1
+    updateStrategy:
+      type: RollingUpdate
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      timeoutSeconds: 5
+      failureThreshold: 6
+      successThreshold: 1
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      timeoutSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
+    resources:
+      limits: {}
+      requests: {}
+    podLabels: {}
+    podAnnotations: {}
+    podSecurityContext:
+      enabled: true
+      fsGroup: 82
+    containerSecurityContext:
+      enabled: false
+    podAffinityPreset: ""
+    podAntiAffinityPreset: soft
+    nodeAffinityPreset:
+      type: ""
+      key: ""
+      values: []
+    affinity: {}
+    nodeSelector: {}
+    tolerations: []
+    topologySpreadConstraints: []
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 3
+      targetCPU: 90
+      targetMemory: 90
+    pdb:
+      create: true
+      minAvailable: 1
+      maxUnavailable: ""
+
+  worker:
+    enabled: true
+    updateStrategy:
+      type: RollingUpdate
+    workers:
+    - queue: default
+    resources:
+      limits: {}
+      requests: {}
+    podLabels: {}
+    podAnnotations: {}
+    podSecurityContext:
+      enabled: true
+      fsGroup: 82
+    containerSecurityContext:
+      enabled: false
+    podAffinityPreset: ""
+    podAntiAffinityPreset: soft
+    nodeAffinityPreset:
+      type: ""
+      key: ""
+      values: []
+    affinity: {}
+    nodeSelector: {}
+    tolerations: []
+    topologySpreadConstraints: []
+
+  scheduler:
+    enabled: true
+    resources:
+      limits: {}
+      requests: {}
+    podLabels: {}
+    podAnnotations: {}
+    podSecurityContext:
+      enabled: true
+      fsGroup: 82
+    containerSecurityContext:
+      enabled: false
+    nodeAffinityPreset:
+      type: ""
+      key: ""
+      values: []
+    affinity: {}
+    nodeSelector: {}
+    tolerations: []
+
+web:
+  image:
+    registry: harbor.sun-asterisk.vn
+    repository: geu/splan/web
+    tag: stable
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+  replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+  resources:
+    limits: {}
+    requests: {}
+  podLabels: {}
+  podAnnotations: {}
+  podSecurityContext:
+    enabled: false
+  containerSecurityContext:
+    enabled: false
+  podAffinityPreset: ""
+  podAntiAffinityPreset: soft
+  nodeAffinityPreset:
+    type: ""
+    key: ""
+    values: []
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
+  topologySpreadConstraints: []
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPU: 90
+    targetMemory: 90
+  pdb:
+    create: true
+    minAvailable: 1
+    maxUnavailable: ""
+  service:
+    type: ClusterIP
+    port: 3000
+    nodePort: ""
+    externalTrafficPolicy: Cluster
+    clusterIP: ""
+    loadBalancerSourceRanges: []
+
+## Configure the ingress resource to allow access to the web & artifacts service
+## ref: http://kubernetes.io/docs/user-guide/ingress/
+##
+ingress:
+  enabled: false
+  ingressClassName:
+  annotations: {}
+  hosts: []
+  # - host: splan.local
+  #   paths:
+  #   - path: /
+  tls: []
+  # - host: splan.local
+
+## Configure the Beanstalkd subchart
+##
+beanstalkd:
+  enabled: true
+
+## Configure the PostgreSQL subchart
+##
+mariadb:
+  enabled: true
+  auth:
+    database: splan
+    username: splan
+    password: please-change-the-password
+    postgresPassword: please-change-the-password
+
+## Configure the Redis subchart
+##
+redis:
+  enabled: true
+  auth:
+    enabled: true
+    password: please-change-the-password
+  master:
+    disableCommands:
+    - FLUSHALL
+  replica:
+    replicaCount: 0
